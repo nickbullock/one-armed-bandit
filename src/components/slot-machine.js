@@ -8,11 +8,8 @@ class SlotMachine extends Sprite {
 
         this.position.x = window.innerWidth/2;
         this.position.y = window.innerHeight/2;
-        this.anchor.x = 0.5;
-        this.anchor.y = 0.5;
-
+        this.anchor.set(0.5);
         this.interactive = true;
-
         this.filters = [
             new DropShadowFilter,
             new DotFilter
