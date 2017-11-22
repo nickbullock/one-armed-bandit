@@ -12,7 +12,7 @@ class SlotMachine extends Sprite {
         this.interactive = true;
         this.filters = [
             new DropShadowFilter,
-            new DotFilter
+            // new DotFilter
         ];
     }
 }

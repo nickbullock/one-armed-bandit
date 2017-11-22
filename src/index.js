@@ -7,6 +7,7 @@ import Background from "./components/background";
 import SlotMachine from "./components/slot-machine";
 import Slot from "./components/slot";
 import SpinButton from "./components/spin-button";
+import Logo from "./components/logo";
 import Utils from "./services/utils";
 
 const preload = () => {
@@ -34,6 +35,7 @@ const preload = () => {
             const bg = new Background();
             const slotMachine = new SlotMachine();
             const spinBtn = new SpinButton();
+            const logo = new Logo();
 
             spinBtn.click = (e) => spin();
             spinBtn.touchstart = (e) => spin();
@@ -42,12 +44,12 @@ const preload = () => {
                 for(let i = 0; i < slotsCount; i++){
                     slotSpriteList[i] = new Slot();
                     slotSpriteList[i].tilePosition.x = 0;
-                    slotSpriteList[i].tilePosition.y = (-positions[i] * tileHeight) + 8;
+                    slotSpriteList[i].tilePosition.y = (-positions[i] * tileHeight + 8);
                     slotSpriteList[i].x = window.innerWidth/2 + (i * 235) - 230;
                     slotSpriteList[i].y = window.innerHeight/2;
                 }
 
-                app.stage.addChild(bg, slotMachine, spinBtn, ...slotSpriteList);
+                app.stage.addChild(bg, slotMachine, spinBtn, logo, ...slotSpriteList);
             };
 
             const update = () => {
@@ -74,12 +76,12 @@ const preload = () => {
                 isSpinning = true;
                 positions = Utils.randomPositions();
 
-                console.log(positions[0], positions[1], positions[2])
-
                 for(let i = 0; i < slotsCount; i++){
                     slotSpriteList[i].tilePosition.x = 0;
                     slotSpriteList[i].tilePosition.y = (-positions[i] * tileHeight);
-                    finalTileYList[i] = (loopCount * tileHeight * tilesCount );
+                    finalTileYList[i] = (loopCount * tileHeight * tilesCount);
+                    slotSpriteList[i].x = window.innerWidth/2 + (i * 235) - 230;
+                    slotSpriteList[i].y = window.innerHeight/2;
                 }
                 update();
             };
