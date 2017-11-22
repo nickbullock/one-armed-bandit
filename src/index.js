@@ -6,12 +6,14 @@ import Background from "./components/background";
 import SlotMachine from "./components/slot-machine";
 
 const preload = () => {
-    const renderer = new PIXI.CanvasRenderer(window.innerWidth, window.innerHeight);
-    const stage = new PIXI.Container();
+    const app = new PIXI.Application({width: window.innerWidth, height: window.innerHeight});
 
-    renderer.view.style.position = "absolute";
-    renderer.view.style.display = "block";
-    renderer.autoResize = true;
+    document.body.appendChild(app.view);
+
+    app.stage.interactive = true;
+    app.renderer.view.style.position = "absolute";
+    app.renderer.view.style.display = "block";
+    app.renderer.autoResize = true;
 
     PIXI.loader
         .add([bgImage, slotsImage])
@@ -19,13 +21,9 @@ const preload = () => {
             const bg = new Background();
             const slotMachine = new SlotMachine();
 
-            stage.addChild(bg, slotMachine);
-
-            renderer.render(stage);
+            app.stage.addChild(bg, slotMachine);
+            app.renderer.render(app.stage);
         });
-
-    document.body.appendChild(renderer.view);
-    document.body.onresize = () => renderer.resize();
 };
 
 document.addEventListener("DOMContentLoaded", preload);
