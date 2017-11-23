@@ -9,18 +9,20 @@ import Slot from "./components/slot";
 import SpinButton from "./components/spin-button";
 import Logo from "./components/logo";
 import Utils from "./services/utils";
+import {ZoomBlurFilter} from "pixi-filters/lib/pixi-filters.es";
 
 const preload = () => {
     const app = new PIXI.Application({width: window.innerWidth, height: window.innerHeight});
     let positions = Utils.randomPositions();
     let isSpinning = false;
+    let win = false;
     const slotsCount = 3;
     const loopCount = 5;
     const tilesCount = 5;
     const tileHeight = 120;
     const slotSpriteList = [];
     const finalTileYList = [];
-    const tileYOffset = 18;
+    const tileYOffset = 20;
 
     document.body.appendChild(app.view);
 
@@ -58,17 +60,26 @@ const preload = () => {
                         slotSpriteList[i].tilePosition.y += tileYOffset;
                         finalTileYList[i] -= tileYOffset;
                     }
-                }
+                    else{
+                        //check last element
+                        slotSpriteList[i].filters = [];
+                        if(i === 2){
+                            isSpinning = false;
+                            if(checkWin()){
+                                console.info("WIN");
+                            }
 
-                if(finalTileYList[2] <= 0) {
-                    isSpinning = false;
+                            return false;
+                        }
 
-                    return false;
+                    }
                 }
 
                 app.renderer.render(app.stage);
                 requestAnimationFrame(update);
             };
+
+            const checkWin = () => !(+(positions.join("")) % 111);
 
             const spin = () => {
                 if(isSpinning) return false;
@@ -78,10 +89,11 @@ const preload = () => {
 
                 for(let i = 0; i < slotsCount; i++){
                     slotSpriteList[i].tilePosition.x = 0;
-                    slotSpriteList[i].tilePosition.y = (-positions[i] * tileHeight);
-                    finalTileYList[i] = (loopCount * tileHeight * tilesCount);
+                    slotSpriteList[i].tilePosition.y = (-positions[i] * tileHeight + 8);
                     slotSpriteList[i].x = window.innerWidth/2 + (i * 235) - 230;
                     slotSpriteList[i].y = window.innerHeight/2;
+                    slotSpriteList[i].filters = [new ZoomBlurFilter];
+                    finalTileYList[i] = ((loopCount+2*i) * tileHeight * tilesCount);
                 }
                 update();
             };

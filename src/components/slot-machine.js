@@ -1,5 +1,5 @@
 import {Sprite, Texture} from "pixi.js/dist/pixi";
-import {DropShadowFilter, DotFilter} from "pixi-filters/lib/pixi-filters.es";
+import {DropShadowFilter} from "pixi-filters/lib/pixi-filters.es";
 import slotMachineImage from "../../static/images/slot-machine.png";
 
 class SlotMachine extends Sprite {
@@ -11,8 +11,7 @@ class SlotMachine extends Sprite {
         this.anchor.set(0.5);
         this.interactive = true;
         this.filters = [
-            new DropShadowFilter,
-            // new DotFilter
+            new DropShadowFilter
         ];
     }
 }
